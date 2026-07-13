@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 const JSDOS_CSS_URL = "https://v8.js-dos.com/latest/js-dos.css";
 const JSDOS_SCRIPT_URL = "https://v8.js-dos.com/latest/js-dos.js";
 const GAME_BUNDLE_URL = "/exodus/games/exodus.jsdos";
+const CHECKPOINT_STORAGE_KEY = "exodusCheckpointLevel";
 
 let jsDosScriptPromise: Promise<void> | null = null;
 
@@ -60,8 +61,20 @@ export default function App() {
   const hasStartedRef = useRef(false);
   const [status, setStatus] = useState("Preparing DOS player...");
   const [error, setError] = useState<string | null>(null);
-  const [isSaving, setIsSaving] = useState(false);
   const [isRestarting, setIsRestarting] = useState(false);
+  const [checkpointLevel, setCheckpointLevel] = useState("1");
+  const [savedCheckpointLevel, setSavedCheckpointLevel] = useState<
+    string | null
+  >(null);
+
+  useEffect(() => {
+    const savedLevel = window.localStorage.getItem(CHECKPOINT_STORAGE_KEY);
+
+    if (savedLevel) {
+      setCheckpointLevel(savedLevel);
+      setSavedCheckpointLevel(savedLevel);
+    }
+  }, []);
 
   useEffect(() => {
     let isMounted = true;
@@ -86,7 +99,7 @@ export default function App() {
           url: GAME_BUNDLE_URL,
           autoStart: true,
         });
-        setStatus("Use Save before leaving, then Load Saved to resume.");
+        setStatus("Ready.");
       } catch (nextError) {
         if (!isMounted) {
           return;
@@ -107,35 +120,40 @@ export default function App() {
     };
   }, []);
 
-  async function handleSave() {
-    if (!dosControllerRef.current || isSaving) {
+  function normalizeCheckpointLevel(value: string) {
+    const parsedLevel = Number.parseInt(value, 10);
+
+    if (Number.isNaN(parsedLevel)) {
+      return "1";
+    }
+
+    return String(Math.min(Math.max(parsedLevel, 1), 100));
+  }
+
+  function handleSaveCheckpoint() {
+    const normalizedLevel = normalizeCheckpointLevel(checkpointLevel);
+
+    setCheckpointLevel(normalizedLevel);
+    setSavedCheckpointLevel(normalizedLevel);
+    window.localStorage.setItem(CHECKPOINT_STORAGE_KEY, normalizedLevel);
+    setStatus(`Checkpoint level ${normalizedLevel} saved in this browser.`);
+  }
+
+  async function handleResumeCheckpoint() {
+    if (isRestarting) {
       return;
     }
 
-    try {
-      setIsSaving(true);
-      setStatus("Saving game...");
-      await dosControllerRef.current.save();
-      setStatus(`Saved ${new Date().toLocaleTimeString()}.`);
-    } catch (nextError) {
-      setStatus(
-        nextError instanceof Error
-          ? `Save failed: ${nextError.message}`
-          : "Save failed."
-      );
-    } finally {
-      setIsSaving(false);
-    }
-  }
-
-  async function handleLoadSaved() {
-    if (isRestarting) {
+    if (!savedCheckpointLevel) {
+      setStatus("Choose a level and save a checkpoint first.");
       return;
     }
 
     try {
       setIsRestarting(true);
-      setStatus("Loading saved game...");
+      setStatus(
+        `Restarting. Use the game password/level menu for level ${savedCheckpointLevel}.`
+      );
       await dosControllerRef.current?.stop();
     } finally {
       window.location.reload();
@@ -172,21 +190,37 @@ export default function App() {
           <>
             <div ref={dosContainerRef} className="dosViewport" />
             <div className="controlBar" aria-label="Game controls">
+              <label className="levelControl">
+                <span>Level</span>
+                <input
+                  aria-label="Checkpoint level"
+                  inputMode="numeric"
+                  max="100"
+                  min="1"
+                  type="number"
+                  value={checkpointLevel}
+                  onBlur={(event) =>
+                    setCheckpointLevel(
+                      normalizeCheckpointLevel(event.currentTarget.value)
+                    )
+                  }
+                  onChange={(event) => setCheckpointLevel(event.target.value)}
+                />
+              </label>
               <button
                 className="controlButton primary"
                 type="button"
-                onClick={handleSave}
-                disabled={!dosControllerRef.current || isSaving}
+                onClick={handleSaveCheckpoint}
               >
-                {isSaving ? "Saving..." : "Save"}
+                Save Checkpoint
               </button>
               <button
                 className="controlButton"
                 type="button"
-                onClick={handleLoadSaved}
+                onClick={handleResumeCheckpoint}
                 disabled={!dosControllerRef.current || isRestarting}
               >
-                {isRestarting ? "Loading..." : "Load Saved"}
+                {isRestarting ? "Restarting..." : "Resume Checkpoint"}
               </button>
               <button
                 className="controlButton"
