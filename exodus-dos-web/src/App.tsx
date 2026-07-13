@@ -3,7 +3,6 @@ import { useEffect, useRef, useState } from "react";
 const JSDOS_CSS_URL = "https://v8.js-dos.com/latest/js-dos.css";
 const JSDOS_SCRIPT_URL = "https://v8.js-dos.com/latest/js-dos.js";
 const GAME_BUNDLE_URL = "/exodus/games/exodus.jsdos";
-const CHECKPOINT_STORAGE_KEY = "exodusCheckpointLevel";
 
 let jsDosScriptPromise: Promise<void> | null = null;
 
@@ -62,19 +61,6 @@ export default function App() {
   const [status, setStatus] = useState("Preparing DOS player...");
   const [error, setError] = useState<string | null>(null);
   const [isRestarting, setIsRestarting] = useState(false);
-  const [checkpointLevel, setCheckpointLevel] = useState("1");
-  const [savedCheckpointLevel, setSavedCheckpointLevel] = useState<
-    string | null
-  >(null);
-
-  useEffect(() => {
-    const savedLevel = window.localStorage.getItem(CHECKPOINT_STORAGE_KEY);
-
-    if (savedLevel) {
-      setCheckpointLevel(savedLevel);
-      setSavedCheckpointLevel(savedLevel);
-    }
-  }, []);
 
   useEffect(() => {
     let isMounted = true;
@@ -99,7 +85,7 @@ export default function App() {
           url: GAME_BUNDLE_URL,
           autoStart: true,
         });
-        setStatus("Ready.");
+        setStatus("Progress is controlled inside the original DOS game.");
       } catch (nextError) {
         if (!isMounted) {
           return;
@@ -120,40 +106,14 @@ export default function App() {
     };
   }, []);
 
-  function normalizeCheckpointLevel(value: string) {
-    const parsedLevel = Number.parseInt(value, 10);
-
-    if (Number.isNaN(parsedLevel)) {
-      return "1";
-    }
-
-    return String(Math.min(Math.max(parsedLevel, 1), 100));
-  }
-
-  function handleSaveCheckpoint() {
-    const normalizedLevel = normalizeCheckpointLevel(checkpointLevel);
-
-    setCheckpointLevel(normalizedLevel);
-    setSavedCheckpointLevel(normalizedLevel);
-    window.localStorage.setItem(CHECKPOINT_STORAGE_KEY, normalizedLevel);
-    setStatus(`Checkpoint level ${normalizedLevel} saved in this browser.`);
-  }
-
-  async function handleResumeCheckpoint() {
+  async function handleRestart() {
     if (isRestarting) {
-      return;
-    }
-
-    if (!savedCheckpointLevel) {
-      setStatus("Choose a level and save a checkpoint first.");
       return;
     }
 
     try {
       setIsRestarting(true);
-      setStatus(
-        `Restarting. Use the game password/level menu for level ${savedCheckpointLevel}.`
-      );
+      setStatus("Restarting game...");
       await dosControllerRef.current?.stop();
     } finally {
       window.location.reload();
@@ -190,37 +150,13 @@ export default function App() {
           <>
             <div ref={dosContainerRef} className="dosViewport" />
             <div className="controlBar" aria-label="Game controls">
-              <label className="levelControl">
-                <span>Level</span>
-                <input
-                  aria-label="Checkpoint level"
-                  inputMode="numeric"
-                  max="100"
-                  min="1"
-                  type="number"
-                  value={checkpointLevel}
-                  onBlur={(event) =>
-                    setCheckpointLevel(
-                      normalizeCheckpointLevel(event.currentTarget.value)
-                    )
-                  }
-                  onChange={(event) => setCheckpointLevel(event.target.value)}
-                />
-              </label>
               <button
                 className="controlButton primary"
                 type="button"
-                onClick={handleSaveCheckpoint}
-              >
-                Save Checkpoint
-              </button>
-              <button
-                className="controlButton"
-                type="button"
-                onClick={handleResumeCheckpoint}
+                onClick={handleRestart}
                 disabled={!dosControllerRef.current || isRestarting}
               >
-                {isRestarting ? "Restarting..." : "Resume Checkpoint"}
+                {isRestarting ? "Restarting..." : "Restart"}
               </button>
               <button
                 className="controlButton"
