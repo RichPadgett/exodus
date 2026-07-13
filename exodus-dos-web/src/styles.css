@@ -36,11 +36,11 @@ textarea {
   min-height: 100vh;
   display: grid;
   place-items: center;
-  padding: 24px;
+  padding: 18px;
 }
 
 .playerPanel {
-  width: min(1180px, 100%);
+  width: min(100%, calc((100vh - 150px) * 4 / 3), 1120px);
 }
 
 .playerHeader {
@@ -78,13 +78,21 @@ h1 {
 
 .dosViewport {
   width: 100%;
-  height: min(72vh, 760px);
-  min-height: 420px;
+  aspect-ratio: 4 / 3;
+  height: auto;
+  max-height: calc(100vh - 150px);
+  min-height: 0;
   overflow: hidden;
   border: 1px solid rgba(247, 243, 232, 0.18);
   border-radius: 8px;
   background: #020617;
   box-shadow: 0 28px 80px rgba(0, 0, 0, 0.38);
+}
+
+.dosViewport canvas,
+.dosViewport iframe {
+  max-width: 100%;
+  max-height: 100%;
 }
 
 .statusText {
@@ -115,7 +123,7 @@ code {
 
 @media (max-width: 720px) {
   .shell {
-    padding: 14px;
+    padding: 10px;
   }
 
   .playerHeader {
@@ -124,7 +132,6 @@ code {
   }
 
   .dosViewport {
-    height: 66vh;
-    min-height: 340px;
+    max-height: calc(100vh - 170px);
   }
 }

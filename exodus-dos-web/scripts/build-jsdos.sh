@@ -38,8 +38,8 @@ memsize=64
 
 [render]
 frameskip=0
-aspect=false
-scaler=normal3x
+aspect=true
+scaler=normal2x
 
 [cpu]
 core=auto
