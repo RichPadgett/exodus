@@ -93,6 +93,45 @@ textarea {
   font-size: 1rem;
 }
 
+.aboutGame {
+  display: grid;
+  grid-template-columns: minmax(180px, 260px) minmax(0, 1fr);
+  gap: 22px;
+  align-items: center;
+  border: 1px solid rgba(247, 243, 232, 0.14);
+  border-radius: 8px;
+  background: rgba(12, 18, 28, 0.68);
+  padding: 18px;
+}
+
+.coverFrame {
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(212, 168, 79, 0.3);
+  border-radius: 8px;
+  background: #05070a;
+  padding: 10px;
+}
+
+.coverFrame img {
+  display: block;
+  width: 100%;
+  max-height: 340px;
+  object-fit: contain;
+}
+
+.aboutCopy h2 {
+  margin: 0;
+  color: #fff7df;
+  font-size: clamp(1.45rem, 3vw, 2.35rem);
+}
+
+.aboutCopy p {
+  max-width: 740px;
+  margin: 10px 0 0;
+  color: #d5d8e0;
+}
+
 .guideLabel {
   display: block;
   color: #d4a84f;
@@ -361,6 +400,16 @@ code {
 
   .controlsBand {
     grid-template-columns: 1fr;
+  }
+
+  .aboutGame {
+    grid-template-columns: 1fr;
+    padding: 14px;
+  }
+
+  .coverFrame {
+    max-width: 240px;
+    margin: 0 auto;
   }
 
   .sectionHeader {

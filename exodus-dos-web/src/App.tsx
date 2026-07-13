@@ -237,6 +237,30 @@ export default function App() {
           </div>
         </section>
 
+        <section className="aboutGame" aria-labelledby="about-title">
+          <div className="coverFrame">
+            <img
+              src={publicUrl("/Exodus_Coverart.png")}
+              alt="Exodus: Journey to the Promised Land cover art"
+            />
+          </div>
+          <div className="aboutCopy">
+            <p className="eyebrow">About the Game</p>
+            <h2 id="about-title">Journey to the Promised Land</h2>
+            <p>
+              Exodus: Journey to the Promised Land is a Wisdom Tree game based
+              on the earlier Color Dreams game Crystal Mines. You guide Moses
+              through maze-like levels, using the Word of God to clear enemies
+              and obstacles while collecting manna and question marks.
+            </p>
+            <p>
+              Each level requires five question marks and enough manna to
+              finish. Between levels, players answer Bible quiz questions before
+              moving forward.
+            </p>
+          </div>
+        </section>
+
         <section className="controlsBand" aria-label="Controls">
           <div className="keyCard">
             <span className="keycap">Space</span>
