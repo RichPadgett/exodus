@@ -1,0 +1,15 @@
+dosbox/
+games/
+START THE GAME.bat
+stdout.txt
+stderr.txt
+
+exodus-dos-web/node_modules/
+exodus-dos-web/dist/
+exodus-dos-web/*.tsbuildinfo
+exodus-dos-web/.env
+exodus-dos-web/.env.*
+!exodus-dos-web/public/
+!exodus-dos-web/public/games/
+exodus-dos-web/public/games/*
+!exodus-dos-web/public/games/.gitkeep
