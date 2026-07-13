@@ -14,6 +14,12 @@ type Artifact = {
   scaled4x: string;
 };
 
+type QuizQuestion = {
+  question: string;
+  answers: string[];
+  correct: number;
+};
+
 const CATEGORY_LABELS: Record<ArtifactCategory, string> = {
   collectible: "Artifacts and pickups",
   obstacle: "Obstacles",
@@ -21,10 +27,10 @@ const CATEGORY_LABELS: Record<ArtifactCategory, string> = {
 };
 
 const CATEGORY_ORDER: ArtifactCategory[] = ["collectible", "obstacle", "enemy"];
+const QUESTIONS_PER_MINI_QUIZ = 10;
 
 function publicUrl(path: string) {
-  const prefix = window.location.pathname.startsWith("/exodus") ? "/exodus" : "";
-  return `${prefix}${path}`;
+  return `${import.meta.env.BASE_URL}${path.replace(/^\//, "")}`;
 }
 
 let jsDosScriptPromise: Promise<void> | null = null;
@@ -89,6 +95,13 @@ export default function App() {
   const [isGuideOpen, setIsGuideOpen] = useState(true);
   const [artifacts, setArtifacts] = useState<Artifact[]>([]);
   const [artifactError, setArtifactError] = useState<string | null>(null);
+  const [quizzes, setQuizzes] = useState<QuizQuestion[]>([]);
+  const [quizError, setQuizError] = useState<string | null>(null);
+  const [activeQuizSection, setActiveQuizSection] = useState(0);
+  const [activeQuestionIndex, setActiveQuestionIndex] = useState(0);
+  const [selectedAnswers, setSelectedAnswers] = useState<
+    Record<number, number>
+  >({});
 
   useEffect(() => {
     let isMounted = true;
@@ -120,6 +133,40 @@ export default function App() {
     }
 
     loadArtifacts();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    async function loadQuizzes() {
+      try {
+        const response = await fetch(publicUrl("/assets/exodus_quizzes.json"));
+
+        if (!response.ok) {
+          throw new Error("Quiz archive is unavailable.");
+        }
+
+        const questions = (await response.json()) as QuizQuestion[];
+
+        if (isMounted) {
+          setQuizzes(questions);
+        }
+      } catch (nextError) {
+        if (isMounted) {
+          setQuizError(
+            nextError instanceof Error
+              ? nextError.message
+              : "Quiz archive is unavailable."
+          );
+        }
+      }
+    }
+
+    loadQuizzes();
 
     return () => {
       isMounted = false;
@@ -174,6 +221,16 @@ export default function App() {
     };
   }, [isGuideOpen]);
 
+  useEffect(() => {
+    if (!isGuideOpen || window.location.hash !== "#quizzes") {
+      return;
+    }
+
+    window.requestAnimationFrame(() => {
+      document.getElementById("quizzes")?.scrollIntoView();
+    });
+  }, [isGuideOpen, quizzes.length]);
+
   async function handleRestart() {
     if (isRestarting) {
       return;
@@ -195,6 +252,47 @@ export default function App() {
   function groupedArtifacts(category: ArtifactCategory) {
     return artifacts.filter((artifact) => artifact.category === category);
   }
+
+  function selectQuizSection(nextSection: number) {
+    const sectionCount = Math.ceil(quizzes.length / QUESTIONS_PER_MINI_QUIZ);
+
+    if (sectionCount === 0) {
+      return;
+    }
+
+    const wrappedSection = (nextSection + sectionCount) % sectionCount;
+    setActiveQuizSection(wrappedSection);
+    setActiveQuestionIndex(0);
+  }
+
+  function selectQuizAnswer(globalQuestionIndex: number, answerIndex: number) {
+    setSelectedAnswers((currentAnswers) => ({
+      ...currentAnswers,
+      [globalQuestionIndex]: answerIndex,
+    }));
+  }
+
+  const quizSections = Array.from(
+    { length: Math.ceil(quizzes.length / QUESTIONS_PER_MINI_QUIZ) },
+    (_, index) =>
+      quizzes.slice(
+        index * QUESTIONS_PER_MINI_QUIZ,
+        (index + 1) * QUESTIONS_PER_MINI_QUIZ
+      )
+  );
+  const activeSection = quizSections[activeQuizSection] ?? [];
+  const activeQuiz = activeSection[activeQuestionIndex];
+  const activeGlobalQuestionIndex =
+    activeQuizSection * QUESTIONS_PER_MINI_QUIZ + activeQuestionIndex;
+  const selectedAnswer = selectedAnswers[activeGlobalQuestionIndex];
+  const answeredInSection = activeSection.filter((_, index) => {
+    const globalIndex = activeQuizSection * QUESTIONS_PER_MINI_QUIZ + index;
+    return selectedAnswers[globalIndex] !== undefined;
+  }).length;
+  const sectionScore = activeSection.reduce((score, question, index) => {
+    const globalIndex = activeQuizSection * QUESTIONS_PER_MINI_QUIZ + index;
+    return selectedAnswers[globalIndex] === question.correct ? score + 1 : score;
+  }, 0);
 
   if (isGuideOpen) {
     return (
@@ -283,6 +381,170 @@ export default function App() {
               <p>Navigate the maze, push blocks, and avoid hazards.</p>
             </div>
           </div>
+        </section>
+
+        <section
+          className="quizArchive"
+          id="quizzes"
+          aria-labelledby="quiz-title"
+        >
+          <div className="sectionHeader">
+            <div>
+              <p className="eyebrow">Bible Quiz</p>
+              <h2 id="quiz-title">Take the between-level quizzes</h2>
+            </div>
+            <span className="quizCount">
+              {quizzes.length > 0
+                ? `${quizSections.length} mini-quizzes`
+                : "Loading"}
+            </span>
+          </div>
+
+          {quizError ? (
+            <div className="messageBox" role="alert">
+              <strong>Quiz archive unavailable</strong>
+              <p>{quizError}</p>
+            </div>
+          ) : activeQuiz ? (
+            <div className="quizActivity">
+              <nav className="quizSectionPicker" aria-label="Mini quizzes">
+                {quizSections.map((section, index) => {
+                  const start = index * QUESTIONS_PER_MINI_QUIZ + 1;
+                  const end = start + section.length - 1;
+
+                  return (
+                    <button
+                      className={
+                        index === activeQuizSection
+                          ? "sectionButton active"
+                          : "sectionButton"
+                      }
+                      type="button"
+                      key={`quiz-section-${index}`}
+                      onClick={() => selectQuizSection(index)}
+                    >
+                      <span>Quiz {index + 1}</span>
+                      <small>
+                        {start}-{end}
+                      </small>
+                    </button>
+                  );
+                })}
+              </nav>
+
+              <article className="quizCard">
+                <div className="quizTopline">
+                  <div className="quizMeta">
+                    Quiz {activeQuizSection + 1} · Question{" "}
+                    {activeQuestionIndex + 1} of {activeSection.length}
+                  </div>
+                  <div className="quizScore">
+                    {sectionScore}/{answeredInSection}
+                  </div>
+                </div>
+                <div
+                  className="questionStepper"
+                  aria-label="Questions in selected quiz"
+                >
+                  {activeSection.map((question, index) => {
+                    const globalIndex =
+                      activeQuizSection * QUESTIONS_PER_MINI_QUIZ + index;
+                    const answer = selectedAnswers[globalIndex];
+                    const isCorrect = answer === question.correct;
+
+                    return (
+                      <button
+                        className={[
+                          "questionDot",
+                          index === activeQuestionIndex ? "active" : "",
+                          answer !== undefined
+                            ? isCorrect
+                              ? "correct"
+                              : "incorrect"
+                            : "",
+                        ]
+                          .filter(Boolean)
+                          .join(" ")}
+                        type="button"
+                        key={`question-${globalIndex}`}
+                        onClick={() => setActiveQuestionIndex(index)}
+                        aria-label={`Question ${index + 1}`}
+                      >
+                        {index + 1}
+                      </button>
+                    );
+                  })}
+                </div>
+                <h3>{activeQuiz.question}</h3>
+                <div className="answerList">
+                  {activeQuiz.answers.map((answer, index) => {
+                    const hasAnswered = selectedAnswer !== undefined;
+                    const isSelected = selectedAnswer === index;
+                    const isCorrect = activeQuiz.correct === index;
+
+                    return (
+                      <button
+                        className={[
+                          "answerChoice",
+                          isSelected ? "selected" : "",
+                          hasAnswered && isCorrect ? "correct" : "",
+                          hasAnswered && isSelected && !isCorrect
+                            ? "incorrect"
+                            : "",
+                        ]
+                          .filter(Boolean)
+                          .join(" ")}
+                        type="button"
+                        key={`${activeQuiz.question}-${answer}`}
+                        onClick={() =>
+                          selectQuizAnswer(activeGlobalQuestionIndex, index)
+                        }
+                      >
+                        <span>{String.fromCharCode(65 + index)}</span>
+                        {answer}
+                      </button>
+                    );
+                  })}
+                </div>
+                <div className="quizActions">
+                  <button
+                    className="controlButton"
+                    type="button"
+                    onClick={() =>
+                      setActiveQuestionIndex(
+                        (activeQuestionIndex - 1 + activeSection.length) %
+                          activeSection.length
+                      )
+                    }
+                  >
+                    Previous
+                  </button>
+                  <button
+                    className="controlButton primary"
+                    type="button"
+                    onClick={() =>
+                      setActiveQuestionIndex(
+                        (activeQuestionIndex + 1) % activeSection.length
+                      )
+                    }
+                  >
+                    Next question
+                  </button>
+                  <button
+                    className="controlButton"
+                    type="button"
+                    onClick={() => selectQuizSection(activeQuizSection + 1)}
+                  >
+                    Next quiz
+                  </button>
+                </div>
+              </article>
+            </div>
+          ) : (
+            <div className="messageBox" role="status">
+              <strong>Loading quiz archive</strong>
+            </div>
+          )}
         </section>
 
         <section className="artifactGuide" aria-labelledby="artifact-title">
