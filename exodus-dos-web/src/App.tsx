@@ -56,9 +56,12 @@ async function assertGameBundleExists() {
 
 export default function App() {
   const dosContainerRef = useRef<HTMLDivElement | null>(null);
+  const dosControllerRef = useRef<DosController | null>(null);
   const hasStartedRef = useRef(false);
   const [status, setStatus] = useState("Preparing DOS player...");
   const [error, setError] = useState<string | null>(null);
+  const [isSaving, setIsSaving] = useState(false);
+  const [isRestarting, setIsRestarting] = useState(false);
 
   useEffect(() => {
     let isMounted = true;
@@ -79,10 +82,11 @@ export default function App() {
 
         hasStartedRef.current = true;
         setStatus("Loading Exodus...");
-        window.Dos(dosContainerRef.current, {
+        dosControllerRef.current = window.Dos(dosContainerRef.current, {
           url: GAME_BUNDLE_URL,
           autoStart: true,
         });
+        setStatus("Use Save before leaving, then Load Saved to resume.");
       } catch (nextError) {
         if (!isMounted) {
           return;
@@ -102,6 +106,45 @@ export default function App() {
       isMounted = false;
     };
   }, []);
+
+  async function handleSave() {
+    if (!dosControllerRef.current || isSaving) {
+      return;
+    }
+
+    try {
+      setIsSaving(true);
+      setStatus("Saving game...");
+      await dosControllerRef.current.save();
+      setStatus(`Saved ${new Date().toLocaleTimeString()}.`);
+    } catch (nextError) {
+      setStatus(
+        nextError instanceof Error
+          ? `Save failed: ${nextError.message}`
+          : "Save failed."
+      );
+    } finally {
+      setIsSaving(false);
+    }
+  }
+
+  async function handleLoadSaved() {
+    if (isRestarting) {
+      return;
+    }
+
+    try {
+      setIsRestarting(true);
+      setStatus("Loading saved game...");
+      await dosControllerRef.current?.stop();
+    } finally {
+      window.location.reload();
+    }
+  }
+
+  function handleFullscreen() {
+    dosControllerRef.current?.setFullScreen(true);
+  }
 
   return (
     <main className="shell">
@@ -128,7 +171,35 @@ export default function App() {
         ) : (
           <>
             <div ref={dosContainerRef} className="dosViewport" />
-            <p className="statusText">{status}</p>
+            <div className="controlBar" aria-label="Game controls">
+              <button
+                className="controlButton primary"
+                type="button"
+                onClick={handleSave}
+                disabled={!dosControllerRef.current || isSaving}
+              >
+                {isSaving ? "Saving..." : "Save"}
+              </button>
+              <button
+                className="controlButton"
+                type="button"
+                onClick={handleLoadSaved}
+                disabled={!dosControllerRef.current || isRestarting}
+              >
+                {isRestarting ? "Loading..." : "Load Saved"}
+              </button>
+              <button
+                className="controlButton"
+                type="button"
+                onClick={handleFullscreen}
+                disabled={!dosControllerRef.current}
+              >
+                Fullscreen
+              </button>
+            </div>
+            <p className="statusText" role="status">
+              {status}
+            </p>
           </>
         )}
       </section>

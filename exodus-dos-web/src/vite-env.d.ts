@@ -1,5 +1,11 @@
 /// <reference types="vite/client" />
 
+interface DosController {
+  save: () => Promise<void> | void;
+  stop: () => Promise<void> | void;
+  setFullScreen: (enabled: boolean) => void;
+}
+
 interface Window {
   Dos?: (
     element: HTMLElement,
@@ -7,5 +13,5 @@ interface Window {
       url: string;
       autoStart?: boolean;
     }
-  ) => unknown;
+  ) => DosController;
 }
