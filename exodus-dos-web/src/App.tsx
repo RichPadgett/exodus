@@ -306,13 +306,18 @@ export default function App() {
               collecting hidden artifacts, and answering the Bible quiz between
               stages.
             </p>
-            <button
-              className="controlButton primary startButton"
-              type="button"
-              onClick={() => setIsGuideOpen(false)}
-            >
-              Continue to game
-            </button>
+            <div className="heroActions">
+              <button
+                className="controlButton primary"
+                type="button"
+                onClick={() => setIsGuideOpen(false)}
+              >
+                Continue to game
+              </button>
+              <a className="controlButton calendarButton" href="/">
+                Back to calendar
+              </a>
+            </div>
           </div>
 
           <div className="quickGuide" aria-label="Before you play">
