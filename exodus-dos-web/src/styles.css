@@ -23,7 +23,7 @@ body,
 body {
   background:
     radial-gradient(circle at top left, rgba(190, 140, 62, 0.16), transparent 34rem),
-    linear-gradient(135deg, #151815 0%, #242215 54%, #111827 100%);
+    linear-gradient(135deg, #151815 0%, #272518 48%, #111827 100%);
 }
 
 button,
@@ -37,6 +37,193 @@ textarea {
   display: grid;
   place-items: center;
   padding: 18px;
+}
+
+.guideShell {
+  width: min(100%, 1180px);
+  margin: 0 auto;
+  padding: 28px 18px 44px;
+}
+
+.guideHero {
+  min-height: min(680px, calc(100vh - 42px));
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 420px);
+  align-items: center;
+  gap: 28px;
+  padding: 44px 0;
+}
+
+.guideHeroContent {
+  max-width: 700px;
+}
+
+.heroLead {
+  max-width: 660px;
+  margin: 16px 0 0;
+  color: #e7dbc0;
+  font-size: clamp(1.08rem, 2vw, 1.35rem);
+}
+
+.startButton {
+  margin-top: 26px;
+}
+
+.quickGuide {
+  display: grid;
+  gap: 10px;
+  border: 1px solid rgba(247, 243, 232, 0.16);
+  border-radius: 8px;
+  background: rgba(12, 18, 28, 0.72);
+  padding: 14px;
+  box-shadow: 0 22px 60px rgba(0, 0, 0, 0.28);
+}
+
+.quickGuide > div {
+  border: 1px solid rgba(247, 243, 232, 0.12);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.035);
+  padding: 12px;
+}
+
+.quickGuide strong {
+  display: block;
+  margin-top: 3px;
+  color: #fff7df;
+  font-size: 1rem;
+}
+
+.guideLabel {
+  display: block;
+  color: #d4a84f;
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.controlsBand {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  padding: 18px 0 28px;
+}
+
+.keyCard {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 14px;
+  align-items: center;
+  border: 1px solid rgba(247, 243, 232, 0.14);
+  border-radius: 8px;
+  background: rgba(20, 27, 32, 0.78);
+  padding: 14px;
+}
+
+.keycap {
+  display: inline-grid;
+  min-width: 74px;
+  min-height: 48px;
+  place-items: center;
+  border: 1px solid rgba(247, 243, 232, 0.28);
+  border-bottom-width: 4px;
+  border-radius: 6px;
+  background: #f7f3e8;
+  color: #111827;
+  font-size: 0.92rem;
+  font-weight: 900;
+  padding: 8px 10px;
+}
+
+.keyCard h2,
+.artifactGuide h2,
+.artifactGroup h3,
+.artifactCard h4 {
+  margin: 0;
+}
+
+.keyCard h2 {
+  color: #fff7df;
+  font-size: 1.02rem;
+}
+
+.keyCard p {
+  margin: 4px 0 0;
+  color: #d5d8e0;
+}
+
+.artifactGuide {
+  padding-top: 14px;
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.artifactGuide h2 {
+  color: #fff7df;
+  font-size: clamp(1.6rem, 3vw, 2.5rem);
+}
+
+.artifactGroup {
+  margin-top: 24px;
+}
+
+.artifactGroup h3 {
+  color: #d4a84f;
+  font-size: 1rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.artifactGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.artifactCard {
+  display: grid;
+  grid-template-columns: 56px minmax(0, 1fr);
+  gap: 12px;
+  min-height: 96px;
+  border: 1px solid rgba(247, 243, 232, 0.12);
+  border-radius: 8px;
+  background: rgba(12, 18, 28, 0.68);
+  padding: 12px;
+}
+
+.artifactIcon {
+  display: grid;
+  width: 56px;
+  height: 56px;
+  place-items: center;
+  border: 1px solid rgba(212, 168, 79, 0.28);
+  border-radius: 6px;
+  background: #05070a;
+}
+
+.artifactIcon img {
+  max-width: 48px;
+  max-height: 48px;
+  image-rendering: pixelated;
+}
+
+.artifactCard h4 {
+  color: #fff7df;
+  font-size: 0.96rem;
+}
+
+.artifactCard p {
+  margin: 4px 0 0;
+  color: #d5d8e0;
+  font-size: 0.9rem;
+  line-height: 1.4;
 }
 
 .playerPanel {
@@ -160,6 +347,25 @@ code {
 @media (max-width: 720px) {
   .shell {
     padding: 10px;
+  }
+
+  .guideShell {
+    padding: 18px 12px 32px;
+  }
+
+  .guideHero {
+    min-height: auto;
+    grid-template-columns: 1fr;
+    padding: 22px 0;
+  }
+
+  .controlsBand {
+    grid-template-columns: 1fr;
+  }
+
+  .sectionHeader {
+    align-items: start;
+    flex-direction: column;
   }
 
   .playerHeader {

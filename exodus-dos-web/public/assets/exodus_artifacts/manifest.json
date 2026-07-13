@@ -1,0 +1,308 @@
+[
+  {
+    "id": "greater_faith",
+    "label": "Greater Faith",
+    "category": "collectible",
+    "description": "Makes Moses temporarily enemy-proof.",
+    "blackBackground": "black_bg/greater_faith.png",
+    "transparent": "transparent/greater_faith.png",
+    "scaled4x": "scaled_4x/greater_faith.png"
+  },
+  {
+    "id": "armor_of_god",
+    "label": "Armor Of God",
+    "category": "collectible",
+    "description": "Makes Moses resistant to blasts.",
+    "blackBackground": "black_bg/armor_of_god.png",
+    "transparent": "transparent/armor_of_god.png",
+    "scaled4x": "scaled_4x/armor_of_god.png"
+  },
+  {
+    "id": "exodus_question",
+    "label": "Exodus Question",
+    "category": "collectible",
+    "description": "Collect five to complete the level.",
+    "blackBackground": "black_bg/exodus_question.png",
+    "transparent": "transparent/exodus_question.png",
+    "scaled4x": "scaled_4x/exodus_question.png"
+  },
+  {
+    "id": "freeze_timer",
+    "label": "Freeze Timer",
+    "category": "collectible",
+    "description": "Temporarily halts the timer.",
+    "blackBackground": "black_bg/freeze_timer.png",
+    "transparent": "transparent/freeze_timer.png",
+    "scaled4x": "scaled_4x/freeze_timer.png"
+  },
+  {
+    "id": "new_sandals",
+    "label": "New Sandals",
+    "category": "collectible",
+    "description": "Allows Moses to walk through straw and mud.",
+    "blackBackground": "black_bg/new_sandals.png",
+    "transparent": "transparent/new_sandals.png",
+    "scaled4x": "scaled_4x/new_sandals.png"
+  },
+  {
+    "id": "word_of_god",
+    "label": "Word Of God",
+    "category": "collectible",
+    "description": "Allows Moses to speak more Words.",
+    "blackBackground": "black_bg/word_of_god.png",
+    "transparent": "transparent/word_of_god.png",
+    "scaled4x": "scaled_4x/word_of_god.png"
+  },
+  {
+    "id": "authority_of_god",
+    "label": "Authority Of God",
+    "category": "collectible",
+    "description": "Makes Words travel farther.",
+    "blackBackground": "black_bg/authority_of_god.png",
+    "transparent": "transparent/authority_of_god.png",
+    "scaled4x": "scaled_4x/authority_of_god.png"
+  },
+  {
+    "id": "one_staff_usage",
+    "label": "One Staff Usage",
+    "category": "collectible",
+    "description": "Adds one staff use.",
+    "blackBackground": "black_bg/one_staff_usage.png",
+    "transparent": "transparent/one_staff_usage.png",
+    "scaled4x": "scaled_4x/one_staff_usage.png"
+  },
+  {
+    "id": "three_staff_usage",
+    "label": "Three Staff Usage",
+    "category": "collectible",
+    "description": "Adds three staff uses.",
+    "blackBackground": "black_bg/three_staff_usage.png",
+    "transparent": "transparent/three_staff_usage.png",
+    "scaled4x": "scaled_4x/three_staff_usage.png"
+  },
+  {
+    "id": "ten_staff_usage",
+    "label": "Ten Staff Usage",
+    "category": "collectible",
+    "description": "Adds ten staff uses.",
+    "blackBackground": "black_bg/ten_staff_usage.png",
+    "transparent": "transparent/ten_staff_usage.png",
+    "scaled4x": "scaled_4x/ten_staff_usage.png"
+  },
+  {
+    "id": "mud_of_bondage",
+    "label": "Mud Of Bondage",
+    "category": "obstacle",
+    "description": "A Word hardens it; the staff removes it.",
+    "blackBackground": "black_bg/mud_of_bondage.png",
+    "transparent": "transparent/mud_of_bondage.png",
+    "scaled4x": "scaled_4x/mud_of_bondage.png"
+  },
+  {
+    "id": "hardened_hearts",
+    "label": "Hardened Hearts",
+    "category": "obstacle",
+    "description": "The staff or calf creates an omer of manna.",
+    "blackBackground": "black_bg/hardened_hearts.png",
+    "transparent": "transparent/hardened_hearts.png",
+    "scaled4x": "scaled_4x/hardened_hearts.png"
+  },
+  {
+    "id": "straw_for_brick",
+    "label": "Straw For Brick",
+    "category": "obstacle",
+    "description": "One staff or calf use removes it.",
+    "blackBackground": "black_bg/straw_for_brick.png",
+    "transparent": "transparent/straw_for_brick.png",
+    "scaled4x": "scaled_4x/straw_for_brick.png"
+  },
+  {
+    "id": "staff_of_moses",
+    "label": "Staff Of Moses",
+    "category": "obstacle",
+    "description": "Stay nearby; Words can set it off early.",
+    "blackBackground": "black_bg/staff_of_moses.png",
+    "transparent": "transparent/staff_of_moses.png",
+    "scaled4x": "scaled_4x/staff_of_moses.png"
+  },
+  {
+    "id": "holy_oil",
+    "label": "Holy Oil",
+    "category": "collectible",
+    "description": "Shields Moses from Holy Ground and Horeb.",
+    "blackBackground": "black_bg/holy_oil.png",
+    "transparent": "transparent/holy_oil.png",
+    "scaled4x": "scaled_4x/holy_oil.png"
+  },
+  {
+    "id": "limitations_of_man",
+    "label": "Limitations Of Man",
+    "category": "obstacle",
+    "description": "Cannot be moved or destroyed.",
+    "blackBackground": "black_bg/limitations_of_man.png",
+    "transparent": "transparent/limitations_of_man.png",
+    "scaled4x": "scaled_4x/limitations_of_man.png"
+  },
+  {
+    "id": "weaknesses_of_man",
+    "label": "Weaknesses Of Man",
+    "category": "obstacle",
+    "description": "Can be pushed; crushed pieces become manna.",
+    "blackBackground": "black_bg/weaknesses_of_man.png",
+    "transparent": "transparent/weaknesses_of_man.png",
+    "scaled4x": "scaled_4x/weaknesses_of_man.png"
+  },
+  {
+    "id": "holy_ground",
+    "label": "Holy Ground",
+    "category": "obstacle",
+    "description": "Protect Moses with Holy Oil.",
+    "blackBackground": "black_bg/holy_ground.png",
+    "transparent": "transparent/holy_ground.png",
+    "scaled4x": "scaled_4x/holy_ground.png"
+  },
+  {
+    "id": "rock_of_horeb",
+    "label": "Rock Of Horeb",
+    "category": "obstacle",
+    "description": "Acts like the above; three staff uses remove it.",
+    "blackBackground": "black_bg/rock_of_horeb.png",
+    "transparent": "transparent/rock_of_horeb.png",
+    "scaled4x": "scaled_4x/rock_of_horeb.png"
+  },
+  {
+    "id": "golden_calf_of_sin",
+    "label": "Golden Calf Of Sin",
+    "category": "obstacle",
+    "description": "Explodes when spoken to.",
+    "blackBackground": "black_bg/golden_calf_of_sin.png",
+    "transparent": "transparent/golden_calf_of_sin.png",
+    "scaled4x": "scaled_4x/golden_calf_of_sin.png"
+  },
+  {
+    "id": "murmurings_of_israel",
+    "label": "Murmurings Of Israel",
+    "category": "obstacle",
+    "description": "Removed by one Word.",
+    "blackBackground": "black_bg/murmurings_of_israel.png",
+    "transparent": "transparent/murmurings_of_israel.png",
+    "scaled4x": "scaled_4x/murmurings_of_israel.png"
+  },
+  {
+    "id": "doubting_god",
+    "label": "Doubting God",
+    "category": "obstacle",
+    "description": "Removed by two Words.",
+    "blackBackground": "black_bg/doubting_god.png",
+    "transparent": "transparent/doubting_god.png",
+    "scaled4x": "scaled_4x/doubting_god.png"
+  },
+  {
+    "id": "omer_of_manna",
+    "label": "Omer Of Manna",
+    "category": "collectible",
+    "description": "Gather enough to finish the level.",
+    "blackBackground": "black_bg/omer_of_manna.png",
+    "transparent": "transparent/omer_of_manna.png",
+    "scaled4x": "scaled_4x/omer_of_manna.png"
+  },
+  {
+    "id": "obstacles_to_faith",
+    "label": "Obstacles To Faith",
+    "category": "obstacle",
+    "description": "Push or use three Words to remove.",
+    "blackBackground": "black_bg/obstacles_to_faith.png",
+    "transparent": "transparent/obstacles_to_faith.png",
+    "scaled4x": "scaled_4x/obstacles_to_faith.png"
+  },
+  {
+    "id": "bricks_of_labor",
+    "label": "Bricks Of Labor",
+    "category": "obstacle",
+    "description": "Push or use three staffs/calves.",
+    "blackBackground": "black_bg/bricks_of_labor.png",
+    "transparent": "transparent/bricks_of_labor.png",
+    "scaled4x": "scaled_4x/bricks_of_labor.png"
+  },
+  {
+    "id": "doubting_gods_word",
+    "label": "Doubting Gods Word",
+    "category": "obstacle",
+    "description": "Temporarily halts Moses.",
+    "blackBackground": "black_bg/doubting_gods_word.png",
+    "transparent": "transparent/doubting_gods_word.png",
+    "scaled4x": "scaled_4x/doubting_gods_word.png"
+  },
+  {
+    "id": "bible",
+    "label": "Bible",
+    "category": "collectible",
+    "description": "Gather ten to earn an extra play.",
+    "blackBackground": "black_bg/bible.png",
+    "transparent": "transparent/bible.png",
+    "scaled4x": "scaled_4x/bible.png"
+  },
+  {
+    "id": "exit_square",
+    "label": "Exit Square",
+    "category": "obstacle",
+    "description": "Appears when a level is complete; may be hidden.",
+    "blackBackground": "black_bg/exit_square.png",
+    "transparent": "transparent/exit_square.png",
+    "scaled4x": "scaled_4x/exit_square.png"
+  },
+  {
+    "id": "pharaohs_magician",
+    "label": "Pharaohs Magician",
+    "category": "enemy",
+    "description": "Stopped by three Words or one staff/calf.",
+    "blackBackground": "black_bg/pharaohs_magician.png",
+    "transparent": "transparent/pharaohs_magician.png",
+    "scaled4x": "scaled_4x/pharaohs_magician.png"
+  },
+  {
+    "id": "pharaohs_taskmaster",
+    "label": "Pharaohs Taskmaster",
+    "category": "enemy",
+    "description": "Stopped by two staffs or calves.",
+    "blackBackground": "black_bg/pharaohs_taskmaster.png",
+    "transparent": "transparent/pharaohs_taskmaster.png",
+    "scaled4x": "scaled_4x/pharaohs_taskmaster.png"
+  },
+  {
+    "id": "pharaohs_soldier",
+    "label": "Pharaohs Soldier",
+    "category": "enemy",
+    "description": "Stopped only by falling objects.",
+    "blackBackground": "black_bg/pharaohs_soldier.png",
+    "transparent": "transparent/pharaohs_soldier.png",
+    "scaled4x": "scaled_4x/pharaohs_soldier.png"
+  },
+  {
+    "id": "pharaohs_sorcerer",
+    "label": "Pharaohs Sorcerer",
+    "category": "enemy",
+    "description": "Stopped by three staffs or calves.",
+    "blackBackground": "black_bg/pharaohs_sorcerer.png",
+    "transparent": "transparent/pharaohs_sorcerer.png",
+    "scaled4x": "scaled_4x/pharaohs_sorcerer.png"
+  },
+  {
+    "id": "meribah",
+    "label": "Meribah",
+    "category": "enemy",
+    "description": "Stopped by one staff or calf.",
+    "blackBackground": "black_bg/meribah.png",
+    "transparent": "transparent/meribah.png",
+    "scaled4x": "scaled_4x/meribah.png"
+  },
+  {
+    "id": "massah",
+    "label": "Massah",
+    "category": "enemy",
+    "description": "Stopped by one staff or calf.",
+    "blackBackground": "black_bg/massah.png",
+    "transparent": "transparent/massah.png",
+    "scaled4x": "scaled_4x/massah.png"
+  }
+]
