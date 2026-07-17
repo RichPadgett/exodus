@@ -15,6 +15,7 @@ Example:
 Optional:
   SSH_KEY="~/.ssh/id_ubuntu"
   SSH_PORT="22"
+  SKIP_BUNDLE="true"
   SKIP_BUILD="true"
   DRY_RUN="true"
   DELETE_REMOTE="false"
@@ -28,6 +29,10 @@ if ! command -v rsync >/dev/null 2>&1; then
 fi
 
 if [[ "${SKIP_BUILD:-false}" != "true" ]]; then
+  if [[ "${SKIP_BUNDLE:-false}" != "true" ]]; then
+    npm run bundle:game
+  fi
+
   npm run build
 fi
 

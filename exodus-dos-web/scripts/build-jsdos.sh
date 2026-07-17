@@ -33,8 +33,8 @@ autolock=true
 sensitivity=100
 
 [dosbox]
-machine=svga_s3
-memsize=64
+machine=vgaonly
+memsize=16
 
 [render]
 frameskip=0
@@ -42,9 +42,9 @@ aspect=true
 scaler=normal2x
 
 [cpu]
-core=auto
-cputype=auto
-cycles=auto
+core=normal
+cputype=386_slow
+cycles=fixed 6000
 
 [mixer]
 nosound=false
@@ -72,9 +72,9 @@ timed=true
 autofire=false
 
 [dos]
-xms=true
-ems=true
-umb=true
+xms=false
+ems=false
+umb=false
 keyboardlayout=auto
 
 [autoexec]
