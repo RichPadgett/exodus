@@ -34,7 +34,13 @@ if [[ -n "${SSH_PORT:-}" ]]; then
   SSH_ARGS+=("-p" "${SSH_PORT}")
 fi
 
-ssh "${SSH_ARGS[@]}" "${DEPLOY_HOST}" \
+if [[ ${#SSH_ARGS[@]} -gt 0 ]]; then
+  SSH_COMMAND=(ssh "${SSH_ARGS[@]}" "${DEPLOY_HOST}")
+else
+  SSH_COMMAND=(ssh "${DEPLOY_HOST}")
+fi
+
+"${SSH_COMMAND[@]}" \
   "REMOTE_REPO_DIR='${REMOTE_REPO_DIR}' REMOTE_WEB_DIR='${REMOTE_WEB_DIR}' REMOTE_BRANCH='${REMOTE_BRANCH}' SKIP_REMOTE_INSTALL='${SKIP_REMOTE_INSTALL:-false}' SKIP_REMOTE_BUNDLE='${SKIP_REMOTE_BUNDLE:-false}' DELETE_REMOTE='${DELETE_REMOTE:-true}' bash -s" <<'REMOTE_SCRIPT'
 set -euo pipefail
 
